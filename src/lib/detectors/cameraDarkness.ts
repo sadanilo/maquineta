@@ -55,7 +55,8 @@ export function createCameraDarknessDetector(): CardDetector {
         })
         video = document.createElement('video')
         video.srcObject = stream
-        video.play()
+        video.muted = true
+        await video.play()
         canvas = document.createElement('canvas')
         canvas.width = 1
         canvas.height = 1
