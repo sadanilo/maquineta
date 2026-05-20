@@ -8,9 +8,11 @@ export function createCameraDarknessDetector(): CardDetector {
   let canvas: HTMLCanvasElement | null = null
   let coveredSince: number | null = null
   let coveredLongEnough = false
+  let detectionStartsAt = 0
 
   const DARK_THRESHOLD = 100
   const COVER_DURATION_MS = 1000
+  const WARMUP_MS = 1500
 
   let currentBrightness = 0
 
@@ -22,6 +24,11 @@ export function createCameraDarknessDetector(): CardDetector {
     ctx.drawImage(video, 0, 0, 1, 1)
     const data = ctx.getImageData(0, 0, 1, 1).data
     currentBrightness = (data[0] + data[1] + data[2]) / 3
+
+    if (Date.now() < detectionStartsAt) {
+      animationId = requestAnimationFrame(checkBrightness)
+      return
+    }
 
     if (currentBrightness < DARK_THRESHOLD) {
       if (!coveredSince) coveredSince = Date.now()
@@ -52,6 +59,9 @@ export function createCameraDarknessDetector(): CardDetector {
         canvas = document.createElement('canvas')
         canvas.width = 1
         canvas.height = 1
+        coveredSince = null
+        coveredLongEnough = false
+        detectionStartsAt = Date.now() + WARMUP_MS
         animationId = requestAnimationFrame(checkBrightness)
       } catch {
         throw new Error('Camera not available')
@@ -70,6 +80,7 @@ export function createCameraDarknessDetector(): CardDetector {
       detectCallback = null
       coveredSince = null
       coveredLongEnough = false
+      detectionStartsAt = 0
     },
 
     async isAvailable() {
