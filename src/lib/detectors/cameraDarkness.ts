@@ -18,12 +18,28 @@ export function createCameraDarknessDetector(): CardDetector {
 
   function checkBrightness() {
     if (!video || !canvas) return
-    const ctx = canvas.getContext('2d')
+    if (video.readyState < 2) {
+      animationId = requestAnimationFrame(checkBrightness)
+      return
+    }
+    const ctx = canvas.getContext('2d', { willReadFrequently: true })
     if (!ctx) return
 
-    ctx.drawImage(video, 0, 0, 1, 1)
-    const data = ctx.getImageData(0, 0, 1, 1).data
-    currentBrightness = (data[0] + data[1] + data[2]) / 3
+    const w = video.videoWidth || 2
+    const h = video.videoHeight || 2
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width = w
+      canvas.height = h
+    }
+
+    ctx.drawImage(video, 0, 0, w, h)
+    const data = ctx.getImageData(0, 0, w, h).data
+    let sum = 0
+    const count = w * h
+    for (let i = 0; i < data.length; i += 4) {
+      sum += (data[i] + data[i + 1] + data[i + 2]) / 3
+    }
+    currentBrightness = sum / count
 
     if (Date.now() < detectionStartsAt) {
       animationId = requestAnimationFrame(checkBrightness)
@@ -51,15 +67,14 @@ export function createCameraDarknessDetector(): CardDetector {
       detectCallback = onDetect
       try {
         stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: 'user', width: 1, height: 1 },
+          video: { facingMode: 'user' },
         })
         video = document.createElement('video')
         video.srcObject = stream
         video.muted = true
+        video.playsInline = true
         await video.play()
         canvas = document.createElement('canvas')
-        canvas.width = 1
-        canvas.height = 1
         coveredSince = null
         coveredLongEnough = false
         detectionStartsAt = Date.now() + WARMUP_MS
