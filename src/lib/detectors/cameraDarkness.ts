@@ -9,7 +9,7 @@ export function createCameraDarknessDetector(): CardDetector {
   let coveredSince: number | null = null
   let coveredLongEnough = false
 
-  const DARK_THRESHOLD = 20
+  const DARK_THRESHOLD = 100
   const COVER_DURATION_MS = 1000
 
   let currentBrightness = 0
