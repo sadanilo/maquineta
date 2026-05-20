@@ -40,5 +40,10 @@ export function useCamera() {
     isRunning.current = false
   }, [])
 
-  return { start, stop }
+  const getBrightness = useCallback(() => {
+    if (!detectorInstance) return 0
+    return detectorInstance.getBrightness()
+  }, [])
+
+  return { start, stop, getBrightness }
 }

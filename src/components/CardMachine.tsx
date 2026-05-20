@@ -19,6 +19,8 @@ export function CardMachine({ config, onOpenConfig }: CardMachineProps) {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const waitingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const [instrucaoCamera, setInstrucaoCamera] = useState(false)
+  const [luz, setLuz] = useState(0)
+  const luzIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   sound.current.setMuted(!config.som)
 
@@ -42,12 +44,19 @@ export function CardMachine({ config, onOpenConfig }: CardMachineProps) {
         setTimeout(aprovar, 1500)
       })
       waitingTimerRef.current = setTimeout(() => setInstrucaoCamera(true), 10000)
+      luzIntervalRef.current = setInterval(() => {
+        setLuz(camera.getBrightness())
+      }, 100)
     } else {
       if (waitingTimerRef.current) clearTimeout(waitingTimerRef.current)
       setInstrucaoCamera(false)
+      if (luzIntervalRef.current) clearInterval(luzIntervalRef.current)
     }
     if (step.type !== 'aguardando' && step.type !== 'processando') {
       camera.stop()
+    }
+    return () => {
+      if (luzIntervalRef.current) clearInterval(luzIntervalRef.current)
     }
   }, [step.type, camera, aprovar])
 
@@ -149,6 +158,7 @@ export function CardMachine({ config, onOpenConfig }: CardMachineProps) {
           onEscolher={handleEscolher}
           confeteAtivo={config.confete && config.animacaoResultado === 'confete'}
           idioma={config.idioma}
+          luz={luz}
         />
       </div>
 

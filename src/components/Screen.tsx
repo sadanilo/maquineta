@@ -6,6 +6,7 @@ interface ScreenProps {
   onEscolher: (modo: 'credito' | 'debito') => void
   confeteAtivo: boolean
   idioma: Idioma
+  luz?: number
 }
 
 function formatBRL(cents: string): string {
@@ -17,7 +18,7 @@ function formatBRL(cents: string): string {
   return `R$ ${comPonto},${centavos}`
 }
 
-export function Screen({ step, onEscolher, confeteAtivo, idioma }: ScreenProps) {
+export function Screen({ step, onEscolher, confeteAtivo, idioma, luz }: ScreenProps) {
   switch (step.type) {
     case 'idle':
       return (
@@ -65,6 +66,11 @@ export function Screen({ step, onEscolher, confeteAtivo, idioma }: ScreenProps) 
           <div className="w-10 h-10 rounded-full border-3 border-white/30 border-t-white animate-spin" />
           <div className="text-base font-bold mt-1">{t('aproximeCartao', idioma)}</div>
           <div className="text-[10px] opacity-50">{t('cubraCamera', idioma)}</div>
+          {luz !== undefined && (
+            <div className="text-[10px] mt-1 font-mono opacity-70">
+              {idioma === 'en' ? 'Light: ' : 'Luz: '}{Math.round(luz)}
+            </div>
+          )}
         </div>
       )
 

@@ -39,6 +39,7 @@ export interface CardDetector {
   start(onDetect: () => void): Promise<void>
   stop(): void
   isAvailable(): Promise<boolean>
+  getBrightness(): number
 }
 
 export interface SoundEngine {

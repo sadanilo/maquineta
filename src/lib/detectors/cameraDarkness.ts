@@ -12,6 +12,8 @@ export function createCameraDarknessDetector(): CardDetector {
   const DARK_THRESHOLD = 20
   const COVER_DURATION_MS = 1000
 
+  let currentBrightness = 0
+
   function checkBrightness() {
     if (!video || !canvas) return
     const ctx = canvas.getContext('2d')
@@ -19,9 +21,9 @@ export function createCameraDarknessDetector(): CardDetector {
 
     ctx.drawImage(video, 0, 0, 1, 1)
     const data = ctx.getImageData(0, 0, 1, 1).data
-    const brightness = (data[0] + data[1] + data[2]) / 3
+    currentBrightness = (data[0] + data[1] + data[2]) / 3
 
-    if (brightness < DARK_THRESHOLD) {
+    if (currentBrightness < DARK_THRESHOLD) {
       if (!coveredSince) coveredSince = Date.now()
       coveredLongEnough = Date.now() - coveredSince >= COVER_DURATION_MS
       if (coveredLongEnough && detectCallback) {
@@ -77,6 +79,10 @@ export function createCameraDarknessDetector(): CardDetector {
       } catch {
         return false
       }
+    },
+
+    getBrightness() {
+      return currentBrightness
     },
   }
 }
