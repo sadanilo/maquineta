@@ -24,8 +24,7 @@ export function Keypad({ onDigit, onClear, onConfirm, confirmDisabled, idioma }:
           k ? (
             <button
               key={i}
-              onMouseDown={() => onDigit(k)}
-              onTouchStart={(e) => { e.preventDefault(); onDigit(k) }}
+              onPointerDown={() => onDigit(k)}
               className="h-14 rounded-xl bg-white/10 text-white text-xl font-bold active:bg-white/25 transition-colors select-none"
             >
               {k}
@@ -37,15 +36,13 @@ export function Keypad({ onDigit, onClear, onConfirm, confirmDisabled, idioma }:
       </div>
       <div className="flex gap-2 w-full">
         <button
-          onMouseDown={onClear}
-          onTouchStart={(e) => { e.preventDefault(); onClear() }}
+          onPointerDown={onClear}
           className="flex-1 h-12 rounded-xl bg-orange-600/60 text-white text-sm font-bold active:bg-orange-500/80 transition-colors select-none"
         >
           {t('limpar', idioma)}
         </button>
         <button
-          onMouseDown={onConfirm}
-          onTouchStart={(e) => { e.preventDefault(); onConfirm() }}
+          onPointerDown={onConfirm}
           disabled={confirmDisabled}
           className="flex-1 h-12 rounded-xl bg-green-600/60 text-white text-sm font-bold active:bg-green-500/80 disabled:opacity-40 transition-colors select-none"
         >

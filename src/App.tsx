@@ -19,8 +19,8 @@ export function App() {
   }
 
   return (
-    <div className="h-dvh w-dvw flex flex-col bg-gray-950 p-2">
-      <div className="flex-1 max-w-md mx-auto w-full">
+    <div className="h-dvh w-dvw flex flex-col bg-gray-950">
+      <div className="flex-1 w-full">
         <CardMachine config={config} onOpenConfig={() => setShowConfig(true)} />
       </div>
     </div>
@@ -48,9 +48,9 @@ function ConfigPanel({ config, onChange, onClose }: ConfigPanelProps) {
   const tr = (key: string) => t(key, config.idioma)
 
   return (
-    <div className="h-dvh w-dvw bg-gray-950 p-2">
+    <div className="h-dvh w-dvw bg-gray-950">
       <div
-        className="rounded-[2.5rem] p-5 space-y-4 h-full overflow-y-auto border-2 border-white/10"
+        className="p-5 space-y-4 h-full overflow-y-auto"
         style={{ backgroundColor: config.corCarcaca }}
       >
         <div className="flex items-center justify-between">

@@ -105,7 +105,7 @@
 
 **Purpose**: PWA polish, edge cases, refinamentos finais
 
-- [ ] T031 [P] Add PWA icons in public/icons/ (192x192, 512x512) — placeholder SVG criado
+- [x] T031 [P] Add PWA icons in public/icons/ (192x192, 512x512) — placeholder SVG criado
 - [x] T032 Configure viewport meta tag e orientação retrato no index.html
 - [x] T033 Implement auto-reset timer (5s) nas telas de resultado
 - [x] T034 Camera permission denied → fallback "👆 PASSAR CARTÃO"

@@ -106,7 +106,7 @@ export function CardMachine({ config, onOpenConfig }: CardMachineProps) {
 
   return (
     <div
-      className="relative flex flex-col h-full w-full rounded-[2.5rem] p-4 shadow-2xl overflow-hidden border-2 border-white/10"
+      className="relative flex flex-col h-full w-full rounded-b-[2.5rem] p-4 shadow-2xl overflow-hidden border-2 border-white/10"
       style={{ backgroundColor: config.corCarcaca }}
     >
       {/* Top bar: contactless + gear */}
@@ -118,8 +118,7 @@ export function CardMachine({ config, onOpenConfig }: CardMachineProps) {
           <span>{config.idioma === 'en' ? 'TAP' : 'APROXIME'}</span>
         </div>
         <button
-          onTouchStart={(e) => { e.preventDefault(); onOpenConfig() }}
-          onMouseDown={onOpenConfig}
+          onPointerDown={onOpenConfig}
           className="text-white/40 text-lg active:text-white/80 transition-colors"
         >
           ⚙️
@@ -156,8 +155,7 @@ export function CardMachine({ config, onOpenConfig }: CardMachineProps) {
       {/* Fallback button inside machine (below display, above keypad) */}
       {step.type === 'aguardando' && (
         <button
-          onTouchStart={(e) => { e.preventDefault(); handleFallback() }}
-          onMouseDown={handleFallback}
+          onPointerDown={handleFallback}
           className="mt-2 py-2 rounded-xl bg-white/15 text-white text-xs font-bold active:bg-white/30 transition-colors select-none w-full"
         >
           👆 {config.idioma === 'en' ? 'TAP CARD' : 'PASSAR CARTÃO'}
@@ -170,8 +168,7 @@ export function CardMachine({ config, onOpenConfig }: CardMachineProps) {
           {['1','2','3','4','5','6','7','8','9'].map((k) => (
             <button
               key={k}
-              onMouseDown={() => handleDigit(k)}
-              onTouchStart={(e) => { e.preventDefault(); handleDigit(k) }}
+          onPointerDown={() => handleDigit(k)}
               className="h-13 rounded-xl text-white text-xl font-bold active:brightness-150 transition-all select-none shadow-md"
               style={{ backgroundColor: config.corBotoes }}
             >
@@ -180,23 +177,20 @@ export function CardMachine({ config, onOpenConfig }: CardMachineProps) {
           ))}
           {/* Row 4: Clear - 0 - Confirm */}
           <button
-            onMouseDown={handleClear}
-            onTouchStart={(e) => { e.preventDefault(); handleClear() }}
+          onPointerDown={handleClear}
             className="h-13 rounded-xl bg-orange-700/70 text-white text-xs font-bold active:brightness-150 transition-all select-none shadow-md"
           >
             {config.idioma === 'en' ? 'CLR' : 'LIMPAR'}
           </button>
           <button
-            onMouseDown={() => handleDigit('0')}
-            onTouchStart={(e) => { e.preventDefault(); handleDigit('0') }}
+          onPointerDown={() => handleDigit('0')}
             className="h-13 rounded-xl text-white text-xl font-bold active:brightness-150 transition-all select-none shadow-md"
             style={{ backgroundColor: config.corBotoes }}
           >
             0
           </button>
           <button
-            onMouseDown={handleConfirmOrIniciar}
-            onTouchStart={(e) => { e.preventDefault(); handleConfirmOrIniciar() }}
+          onPointerDown={handleConfirmOrIniciar}
             disabled={confirmDisabled}
             className="h-13 rounded-xl bg-green-700/70 text-white text-xs font-bold active:brightness-150 disabled:opacity-30 disabled:brightness-100 transition-all select-none shadow-md"
           >

@@ -45,13 +45,13 @@ export function Screen({ step, onEscolher, confeteAtivo, idioma }: ScreenProps) 
         <div className="flex flex-col items-center justify-center h-full gap-3">
           <div className="text-lg font-bold">{t('formaPagamento', idioma)}</div>
           <button
-            onMouseDown={() => onEscolher('credito')}
+            onPointerDown={() => onEscolher('credito')}
             className="w-40 py-3 rounded-xl bg-green-600/80 text-white text-base font-bold active:bg-green-500 transition-colors select-none"
           >
             {t('credito', idioma)}
           </button>
           <button
-            onMouseDown={() => onEscolher('debito')}
+            onPointerDown={() => onEscolher('debito')}
             className="w-40 py-3 rounded-xl bg-blue-600/80 text-white text-base font-bold active:bg-blue-500 transition-colors select-none"
           >
             {t('debito', idioma)}
