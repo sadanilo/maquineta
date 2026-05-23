@@ -115,7 +115,7 @@ export function CardMachine({ config, onOpenConfig }: CardMachineProps) {
 
   return (
     <div
-      className="relative flex flex-col h-full w-full rounded-b-[2.5rem] p-4 shadow-2xl overflow-hidden border-2 border-white/10"
+      className="relative flex flex-col h-full max-w-[400px] mx-auto rounded-b-[2.5rem] p-4 shadow-2xl overflow-hidden border-2 border-white/10"
       style={{ backgroundColor: config.corCarcaca }}
     >
       {/* Top bar: contactless + gear */}
@@ -173,8 +173,8 @@ export function CardMachine({ config, onOpenConfig }: CardMachineProps) {
       )}
 
       {/* Keypad - ALWAYS visible */}
-      <div className="w-full mt-3">
-        <div className="grid grid-cols-3 gap-2 w-full max-w-xs mx-auto">
+      <div className="mt-3">
+        <div className="grid grid-cols-3 gap-2 max-w-xs mx-auto">
           {['1','2','3','4','5','6','7','8','9'].map((k) => (
             <button
               key={k}
